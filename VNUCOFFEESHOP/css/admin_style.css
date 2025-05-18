@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Phudu:wght@400;600&display=swap');
 
+
 :root{
    --main-color:#e74c3c;
    --red:#e74c3c;
@@ -215,15 +216,22 @@ section{
    font-family: 'Phudu', cursive !important;
 }
 
-.header .flex .navbar a{
-   margin:0 1rem;
-   font-size: 2rem;
+.header .flex .navbar a {
+   margin: 0 1rem;
+   font-size: 1.6rem; /* Nhỏ hơn một chút */
    color: black;
+   font-weight: 600;  /* Đậm hơn */
+   transition: transform 0.2s ease, color 0.2s ease, text-shadow 0.2s ease;
+   position: relative;
 }
 
-.header .flex .navbar a:hover{
-   color:var(--main-color);
+.header .flex .navbar a:hover {
+   color: var(--main-color);
+   transform: scale(1.5); /* Zoom nhẹ */
+   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+
 
 .header .flex .icons > *{
    font-size: 2.5rem;
