@@ -25,83 +25,74 @@ if(isset($_GET['delete'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>admins accounts</title>
+   <title>Admin Accounts</title>
 
-   <!-- font awesome cdn link  -->
+   <!-- Font Awesome CDN Link -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
-   <!-- custom css file link  -->
-   <link rel="stylesheet" href="VNUCOFFEESHOP\css\admin_style.css">
+   <!-- Custom CSS File Link -->
+   <link rel="stylesheet" href="VNUCOFFEESHOP/css/admin_style.css">
 
 </head>
 <body>
 
 <?php include '../components/admin_header.php' ?>
 
-<!-- admins accounts section starts  -->
-
+<!-- Admins Accounts Section Starts -->
 <section class="accounts">
 
-   <h1 class="heading">admins account</h1>
+   <h1 class="heading">Admins Account</h1>
 
+   <!-- Register New Admin Section -->
+   <a href="register_admin.php" class="register-btn">Register New Admin</a>
+
+   <!-- Admin Accounts Table -->
    <div class="box-container">
-
-   <div class="box">
-      <p>register new admin</p>
-      <a href="register_admin.php" class="option-btn">register</a>
+      <table class="accounts-table">
+         <thead>
+            <tr>
+               <th>Admin ID</th>
+               <th>Username</th>
+               <th>Actions</th>
+            </tr>
+         </thead>
+         <tbody>
+            <?php
+            $select_account = $conn->prepare("SELECT * FROM `admin`");
+            $select_account->execute();
+            if($select_account->rowCount() > 0){
+               while($fetch_accounts = $select_account->fetch(PDO::FETCH_ASSOC)){  
+            ?>
+            <tr>
+               <td><?= $fetch_accounts['id']; ?></td>
+               <td><?= $fetch_accounts['name']; ?></td>
+         <td>
+   <div class="actions-container">
+      <a href="admin_accounts.php?delete=<?= $fetch_accounts['id']; ?>" class="delete-btn-custom" onclick="return confirm('Delete this account?');">Delete</a>
+      <?php
+         if($fetch_accounts['id'] == $admin_id){
+            echo '<a href="update_profile.php" class="update-btn-custom">Update</a>';
+         }
+      ?>
    </div>
+</td>
 
-   <?php
-      $select_account = $conn->prepare("SELECT * FROM `admin`");
-      $select_account->execute();
-      if($select_account->rowCount() > 0){
-         while($fetch_accounts = $select_account->fetch(PDO::FETCH_ASSOC)){  
-   ?>
-   <div class="box">
-      <p> admin id : <span><?= $fetch_accounts['id']; ?></span> </p>
-      <p> username : <span><?= $fetch_accounts['name']; ?></span> </p>
-      <div class="flex-btn">
-         <a href="admin_accounts.php?delete=<?= $fetch_accounts['id']; ?>" class="delete-btn" onclick="return confirm('delete this account?');">delete</a>
-         <?php
-            if($fetch_accounts['id'] == $admin_id){
-               echo '<a href="update_profile.php" class="option-btn">update</a>';
+
+            </tr>
+            <?php
+               }
+            } else {
+               echo '<tr><td colspan="3" class="empty">No accounts available</td></tr>';
             }
-         ?>
-      </div>
-   </div>
-   <?php
-      }
-   }else{
-      echo '<p class="empty">no accounts available</p>';
-   }
-   ?>
-
+            ?>
+         </tbody>
+      </table>
    </div>
 
 </section>
+<!-- Admins Accounts Section Ends -->
 
-<!-- admins accounts section ends -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- custom js file link  -->
+<!-- Custom JS File Link -->
 <script src="../js/admin_script.js"></script>
 
 </body>

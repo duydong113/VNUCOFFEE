@@ -8,6 +8,7 @@
    --black:#222;
    --light-color:#777;
    --border:.2rem solid var(--black);
+     --main-color: #3498db; /* Màu xanh dương sáng */
 }
 
 *{
@@ -132,12 +133,13 @@ section{
    align-items: center;
    gap:1rem;
    justify-content: space-between;
-   background-color: var(--yellow);
+   background-color: #c966379e;
+   color: #fff;
 }
 
 .message span{
    font-size: 2rem;
-   color:var(--black);
+   color: #fff;
 }
 
 .message i{

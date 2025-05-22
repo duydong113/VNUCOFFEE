@@ -69,12 +69,12 @@ if(isset($_GET['delete'])){
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>products</title>
+   <title>Products</title>
 
-   <!-- font awesome cdn link  -->
+   <!-- font awesome cdn link -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
-   <!-- custom css file link  -->
+   <!-- custom css file link -->
    <link rel="stylesheet" href="../css/admin_style.css">
 
 </head>
@@ -82,80 +82,190 @@ if(isset($_GET['delete'])){
 
 <?php include '../components/admin_header.php' ?>
 
-<!-- add products section starts  -->
+<!-- Search and Add Product Section -->
+<section class="search-add-products">
+   <h1 class="heading">Products</h1>
+   
+   <!-- Search Bar -->
+   <div class="search-bar">
+      <input type="text" placeholder="Search products..." id="productSearch" class="box">
+   </div>
 
-<section class="add-products">
+   <!-- Add Product Button -->
+   <button class="btn" id="openAddProductForm">Add Product</button>
 
-   <form action="" method="POST" enctype="multipart/form-data">
-      <h3>add product</h3>
-      <input type="text" required placeholder="enter product name" name="name" maxlength="100" class="box">
-      <input type="number" min="0" max="9999999999" required placeholder="enter product price" name="price" onkeypress="if(this.value.length == 10) return false;" class="box">
+   <!-- Sort Button with Dropdown -->
+   <div class="sort-dropdown">
+      <button class="btn" id="openSortMenu">Sort</button>
+      <div class="dropdown-content" id="sortMenu">
+         <a href="javascript:void(0);" id="sortByPriceAsc">Price: Low to High</a>
+         <a href="javascript:void(0);" id="sortByPriceDesc">Price: High to Low</a>
+         <a href="javascript:void(0);" id="sortByName">Alphabetically</a>
+      </div>
+   </div>
+</section>
+
+<!-- Add Product Popup Form -->
+<div class="popup" id="addProductPopup">
+   <form action="" method="POST" enctype="multipart/form-data" class="popup-form">
+      <h3>Add Product</h3>
+      <input type="text" required placeholder="Enter product name" name="name" maxlength="100" class="box">
+      <input type="number" min="0" max="9999999999" required placeholder="Enter product price" name="price" onkeypress="if(this.value.length == 10) return false;" class="box">
       <select name="category" class="box" required>
-   <option value="" disabled selected>select category --</option>
-   <option value="Coffee">Coffee</option>
-   <option value="Tea">Tea</option>
-   <option value="Smoothie">Smoothie</option>
-   <option value="Juice">Juice</option>
-   <option value="Desserts">Desserts</option>
-</select>
-
+         <option value="" disabled selected>Select category</option>
+         <option value="Coffee">Coffee</option>
+         <option value="Tea">Tea</option>
+         <option value="Smoothie">Smoothie</option>
+         <option value="Juice">Juice</option>
+         <option value="Desserts">Desserts</option>
       </select>
       <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp" required>
-      <input type="submit" value="add product" name="add_product" class="btn">
+      <input type="submit" value="Add Product" name="add_product" class="btn">
+      <button type="button" class="btn-close" id="closeAddProductForm">Close</button>
    </form>
+</div>
+<!-- Show Products Table -->
+<section class="show-products">
+
+   <div class="products-table">
+      <table>
+         <thead>
+            <tr>
+               <th>Image</th> <!-- Add an image column -->
+               <th>Product Name</th>
+               <th>Category</th>
+               <th>Price</th>
+               <th>Actions</th>
+            </tr>
+         </thead>
+         <tbody id="productTableBody">
+            <?php
+               $show_products = $conn->prepare("SELECT * FROM `products`");
+               $show_products->execute();
+               if($show_products->rowCount() > 0){
+                  while($fetch_products = $show_products->fetch(PDO::FETCH_ASSOC)){  
+            ?>
+            <tr>
+               <td><img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="Product Image" class="product-image"></td> <!-- Display product image -->
+               <td><?= $fetch_products['name']; ?></td>
+               <td><?= $fetch_products['category']; ?></td>
+               <td><?= $fetch_products['price']; ?> VND</td>
+               <td>
+                  <a href="update_product.php?update=<?= $fetch_products['id']; ?>" class="option-btn">Update</a>
+                  <a href="products.php?delete=<?= $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('Delete this product?');">Delete</a>
+               </td>
+            </tr>
+            <?php
+                  }
+               }else{
+                  echo '<tr><td colspan="5">No products added yet.</td></tr>';
+               }
+            ?>
+         </tbody>
+      </table>
+   </div>
 
 </section>
 
-<!-- add products section ends -->
-
-<!-- show products section starts  -->
-
-<section class="show-products" style="padding-top: 0;">
-
-   <div class="box-container">
-
-   <?php
-      $show_products = $conn->prepare("SELECT * FROM `products`");
-      $show_products->execute();
-      if($show_products->rowCount() > 0){
-         while($fetch_products = $show_products->fetch(PDO::FETCH_ASSOC)){  
-   ?>
-   <div class="box">
-      <img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
-      <div class="flex">
-         <div class="price"><?= $fetch_products['price']; ?><span>VND</span></div>
-         <div class="category"><?= $fetch_products['category']; ?></div>
-      </div>
-      <div class="name"><?= $fetch_products['name']; ?></div>
-      <div class="flex-btn">
-         <a href="update_product.php?update=<?= $fetch_products['id']; ?>" class="option-btn">update</a>
-         <a href="products.php?delete=<?= $fetch_products['id']; ?>" class="delete-btn" onclick="return confirm('delete this product?');">delete</a>
-      </div>
-   </div>
-   <?php
-         }
-      }else{
-         echo '<p class="empty">no products added yet!</p>';
-      }
-   ?>
-
-   </div>
-
-</section>
-
-<!-- show products section ends -->
-
-
-
-
-
-
-
-
-
-
-<!-- custom js file link  -->
+<!-- custom js file link -->
 <script src="../js/admin_script.js"></script>
+
+<script>
+   // Open Add Product Popup
+   document.getElementById('openAddProductForm').addEventListener('click', function() {
+      document.getElementById('addProductPopup').style.display = 'flex';
+   });
+
+   // Close Add Product Popup
+   document.getElementById('closeAddProductForm').addEventListener('click', function() {
+      document.getElementById('addProductPopup').style.display = 'none';
+   });
+
+   // Product Search Functionality
+   document.getElementById('productSearch').addEventListener('input', function() {
+   let filter = this.value.toUpperCase();
+   let rows = document.querySelectorAll('#productTableBody tr');
+
+   rows.forEach(row => {
+      let name = row.querySelector('td:nth-child(2)').textContent;  // Change to column 2
+      if(name.toUpperCase().includes(filter)){
+         row.style.display = '';
+      } else {
+         row.style.display = 'none';
+      }
+   });
+});
+// Open Add Product Popup
+document.getElementById('openAddProductForm').addEventListener('click', function() {
+   document.getElementById('addProductPopup').style.display = 'flex';
+});
+
+// Close Add Product Popup
+document.getElementById('closeAddProductForm').addEventListener('click', function() {
+   document.getElementById('addProductPopup').style.display = 'none';
+});
+
+// Product Search Functionality
+document.getElementById('productSearch').addEventListener('input', function() {
+   let filter = this.value.toUpperCase();
+   let rows = document.querySelectorAll('#productTableBody tr');
+
+   rows.forEach(row => {
+      let name = row.querySelector('td:nth-child(2)').textContent;  // Adjusted column
+      if(name.toUpperCase().includes(filter)){
+         row.style.display = '';
+      } else {
+         row.style.display = 'none';
+      }
+   });
+});
+
+// Sorting functionality
+document.getElementById('openSortMenu').addEventListener('click', function() {
+   document.getElementById('sortMenu').style.display = 'block';
+});
+
+document.getElementById('sortByPriceAsc').addEventListener('click', function() {
+   sortProducts('price', 'asc');
+});
+
+document.getElementById('sortByPriceDesc').addEventListener('click', function() {
+   sortProducts('price', 'desc');
+});
+
+document.getElementById('sortByName').addEventListener('click', function() {
+   sortProducts('name', 'asc');
+});
+
+function sortProducts(criteria, order) {
+   let rows = Array.from(document.querySelectorAll('#productTableBody tr'));
+   
+   rows.sort(function(a, b) {
+      let cellA = a.querySelector(`td:nth-child(${criteria === 'name' ? 2 : 4})`).textContent;
+      let cellB = b.querySelector(`td:nth-child(${criteria === 'name' ? 2 : 4})`).textContent;
+      
+      if (criteria === 'price') {
+         cellA = parseFloat(cellA.replace(' VND', '').trim());
+         cellB = parseFloat(cellB.replace(' VND', '').trim());
+      }
+      
+      if (order === 'asc') {
+         return cellA < cellB ? -1 : 1;
+      } else {
+         return cellA > cellB ? -1 : 1;
+      }
+   });
+   
+   let tbody = document.getElementById('productTableBody');
+   tbody.innerHTML = '';
+   rows.forEach(row => tbody.appendChild(row));
+   
+   // Close dropdown after sorting
+   document.getElementById('sortMenu').style.display = 'none';
+}
+
+
+</script>
 
 </body>
 </html>

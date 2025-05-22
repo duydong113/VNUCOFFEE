@@ -47,53 +47,92 @@ if(isset($_GET['delete'])){
 <body>
 
 <?php include '../components/admin_header.php' ?>
-
-<!-- placed orders section starts  -->
-
+<!-- placed orders section starts -->
 <section class="placed-orders">
 
-   <h1 class="heading">placed orders</h1>
+   <h1 class="heading">Placed Orders</h1>
 
-   <div class="box-container">
+   <div class="orders-table">
+      <table>
+         <thead>
+            <tr>
+               <th>User ID</th>
+               <th>Placed On</th>
+               <th>Name</th>
+               <th>Total Products</th>
+               <th>Total Price</th>
+               <th>Actions</th>
+               <th>View Detail</th>
+            </tr>
+         </thead>
+         <tbody>
+            <?php
+               $select_orders = $conn->prepare("SELECT * FROM `orders`");
+               $select_orders->execute();
+               if($select_orders->rowCount() > 0){
+                  while($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)){
+            ?>
+            <tr>
+               <td><?= $fetch_orders['user_id']; ?></td>
+               <td><?= $fetch_orders['placed_on']; ?></td>
+               <td><?= $fetch_orders['name']; ?></td>
+               <td><?= $fetch_orders['total_products']; ?></td>
+               <td><?= $fetch_orders['total_price']; ?> VND</td>
+               <td>
+                  <div class="actions">
+                     <form action="" method="POST" style="display: inline;">
+                        <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">
+                        <select name="payment_status" class="drop-down">
+                           <option value="" selected disabled><?= $fetch_orders['payment_status']; ?></option>
+                           <option value="pending">pending</option>
+                           <option value="completed">completed</option>
+                        </select>
+                        <input type="submit" value="Update" class="btn" name="update_payment">
+                     </form>
+                     <a href="placed_orders.php?delete=<?= $fetch_orders['id']; ?>" class="delete-btn" onclick="return confirm('Delete this order?');">Delete</a>
+                  </div>
+               </td>
+               <td>
+                  <button class="view-detail-btn" onclick="toggleDetail(<?= $fetch_orders['id']; ?>)">View Detail</button>
+               </td>
+            </tr>
 
-   <?php
-      $select_orders = $conn->prepare("SELECT * FROM `orders`");
-      $select_orders->execute();
-      if($select_orders->rowCount() > 0){
-         while($fetch_orders = $select_orders->fetch(PDO::FETCH_ASSOC)){
-   ?>
-   <div class="box">
-      <p> user id : <span><?= $fetch_orders['user_id']; ?></span> </p>
-      <p> placed on : <span><?= $fetch_orders['placed_on']; ?></span> </p>
-      <p> name : <span><?= $fetch_orders['name']; ?></span> </p>
-      <p> email : <span><?= $fetch_orders['email']; ?></span> </p>
-      <p> number : <span><?= $fetch_orders['number']; ?></span> </p>
-      <p> address : <span><?= $fetch_orders['address']; ?></span> </p>
-      <p> total products : <span><?= $fetch_orders['total_products']; ?></span> </p>
-      <p> total price : <span>$<?= $fetch_orders['total_price']; ?>/-</span> </p>
-      <p> payment method : <span><?= $fetch_orders['method']; ?></span> </p>
-      <form action="" method="POST">
-         <input type="hidden" name="order_id" value="<?= $fetch_orders['id']; ?>">
-         <select name="payment_status" class="drop-down">
-            <option value="" selected disabled><?= $fetch_orders['payment_status']; ?></option>
-            <option value="pending">pending</option>
-            <option value="completed">completed</option>
-         </select>
-         <div class="flex-btn">
-            <input type="submit" value="update" class="btn" name="update_payment">
-            <a href="placed_orders.php?delete=<?= $fetch_orders['id']; ?>" class="delete-btn" onclick="return confirm('delete this order?');">delete</a>
-         </div>
-      </form>
+            <!-- Hidden Detailed Information Row (Initially Hidden) -->
+            <tr id="detail-row-<?= $fetch_orders['id']; ?>" class="detail-row">
+               <td colspan="7">
+                  <div class="order-details">
+                     <p><strong>User ID:</strong> <?= $fetch_orders['user_id']; ?></p>
+                     <p><strong>Placed On:</strong> <?= $fetch_orders['placed_on']; ?></p>
+                     <p><strong>Name:</strong> <?= $fetch_orders['name']; ?></p>
+                     <p><strong>Email:</strong> <?= $fetch_orders['email']; ?></p>
+                     <p><strong>Number:</strong> <?= $fetch_orders['number']; ?></p>
+                     <p><strong>Address:</strong> <?= $fetch_orders['address']; ?></p>
+                     <p><strong>Total Products:</strong> <?= $fetch_orders['total_products']; ?></p>
+                     <p><strong>Total Price:</strong> <?= $fetch_orders['total_price']; ?> VND</p>
+                     <p><strong>Payment Method:</strong> <?= $fetch_orders['method']; ?></p>
+                  </div>
+               </td>
+            </tr>
+            <?php
+                  }
+               }else{
+                  echo '<tr><td colspan="7">No orders placed yet!</td></tr>';
+               }
+            ?>
+         </tbody>
+      </table>
    </div>
-   <?php
-      }
-   }else{
-      echo '<p class="empty">no orders placed yet!</p>';
+<script> 
+function toggleDetail(orderId) {
+   const detailRow = document.getElementById('detail-row-' + orderId);
+   // Toggle the visibility of the detail row
+   if (detailRow.style.display === "table-row") {
+      detailRow.style.display = "none";
+   } else {
+      detailRow.style.display = "table-row";
    }
-   ?>
-
-   </div>
-
+}
+</script>
 </section>
 
 <!-- placed orders section ends -->
@@ -106,8 +145,9 @@ if(isset($_GET['delete'])){
 
 
 
+
 <!-- custom js file link  -->
-<script src="../js/admin_script.js"></script>
+<script src="../js/admin_script.js"></>
 
 </body>
 </html>

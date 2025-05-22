@@ -19,6 +19,8 @@ if(isset($message)){
    <title>Admin Panel</title>
    <link rel="stylesheet" href="../css/admin_style.css">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <header class="header">
@@ -32,11 +34,6 @@ if(isset($message)){
          <a href="users_accounts.php">Users</a>
          <a href="messages.php">Messages</a>
       </nav>
-
-      <div class="icons">
-         <div id="menu-btn" class="fas fa-bars"></div>
-         <div id="user-btn" class="fas fa-user"></div>
-      </div>
 
       <div class="profile">
          <?php

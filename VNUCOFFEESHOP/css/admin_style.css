@@ -1,17 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Phudu:wght@400;600&display=swap');
 
-
 :root{
-   --main-color:#e74c3c;
-   --red:#e74c3c;
-   --orange:#f39c12;
-   --black:#34495e;
-   --white:#fff;
-   --light-bg:#f5f5f5;
-   --light-color:#999;
-   --border:.2rem solid var(--black);
-   --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
+   --main-color: #3498db; /* Màu xanh dương sáng */
+   --red: #e74c3c;
+   --orange: #f39c12;
+   --black: #34495e;
+   --white: #fff;
+   --light-bg: #f5f5f5;
+   --light-color: #999;
+   --border: .2rem solid var(--black);
+   --box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+   --menu-item-bg: #e0f7fa; /* Màu nền cho các nút Update Profile, Login, Register */
+   --menu-item-border: #b2ebf2; /* Màu viền mỏng */
 }
 
 *{
@@ -47,7 +48,8 @@ html{
 
 body{
    background-color: var(--light-bg);
-   /* padding-bottom: 7rem; */
+   margin-left: 500px; /* Điều chỉnh lại thanh menu */
+   transition: margin-left 0.3s ease-in-out;
 }
 
 section{
@@ -58,18 +60,26 @@ section{
 
 .btn,
 .delete-btn,
-.option-btn{
+.option-btn {
    display: block;
    margin-top: 1rem;
-   border-radius: .5rem;
    cursor: pointer;
    width: 100%;
    font-size: 1.8rem;
-   color:var(--white);
-   padding:1.2rem 3rem;
+   color: var(--white);
+   padding: 1.2rem 3rem;
    text-transform: capitalize;
    text-align: center;
+   box-sizing: border-box; /* Đảm bảo padding không gây tràn */
+   background-color: var(--main-color); /* Đảm bảo màu nền */
+   border: none;
 }
+
+.option-btn:hover {
+   background-color: var(--black); /* Đổi màu khi hover */
+   color: var(--white);
+}
+
 
 .btn{
    background-color: var(--main-color);
@@ -80,7 +90,7 @@ section{
 }
 
 .option-btn{
-   background-color: var(--orange);
+   background-color: var(--main-color);
 }
 
 .btn:hover,
@@ -143,6 +153,7 @@ section{
    box-shadow: var(--box-shadow);
 }
 
+
 .form-container{
    display: flex;
    align-items: center;
@@ -189,158 +200,506 @@ section{
    border-radius: .5rem;
 }
 
-.header{
-   position: sticky;
-   top:0; left:0; right:0;
-   background-color: var(--white);
-   box-shadow: var(--box-shadow);
-   z-index: 1000;
-   border-bottom: var(--border);
+
+/* Global settings */
+
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: var(--main-color); /* Đổi màu thành xanh dương sáng */
+    box-shadow: var(--box-shadow);
+    z-index: 1000;
+    border-right: var(--border);
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.header .flex{
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   position: relative;
+.header .flex {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
 }
 
-.header .flex .logo{
-   font-size: 2.5rem;
-   color: rgb(0, 0, 0);
-   font-family: 'Phudu', cursive !important;
+.header .flex .logo {
+    font-size: 2.5rem;
+    color: var(--white);
+    font-family: 'Phudu', cursive !important;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
-.header .flex .logo span{
-   color: rgb(88, 28, 0);
-   font-family: 'Phudu', cursive !important;
+.header .flex .logo span {
+    color: var(--light-bg);
+}
+
+.header .flex .navbar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header .flex .navbar a {
-   margin: 0 1rem;
-   font-size: 1.6rem; /* Nhỏ hơn một chút */
-   color: black;
-   font-weight: 600;  /* Đậm hơn */
-   transition: transform 0.2s ease, color 0.2s ease, text-shadow 0.2s ease;
-   position: relative;
+    font-size: 1.6rem; /* Giảm kích thước font chữ */
+    color: var(--white);
+    font-weight: 600;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    transition: color 0.3s ease;
+    text-align: center;
+}
+
+.header {
+    overflow-y: auto; /* Thêm thanh cuộn dọc khi cần thiết */
+    scrollbar-width: thin;
+    scrollbar-color: var(--main-color) var(--light-bg); /* Màu của thanh cuộn */
+}
+
+/* Phần tên admin */
+.header .flex .profile p {
+    font-size: 2.5rem; /* Tăng kích thước font chữ cho tên admin */
+    font-weight: 700; /* Dày chữ */
+    color: var(--white);
+    margin-bottom: 2rem; /* Khoảng cách dưới tên admin */
+    text-align: center; /* Căn giữa tên admin */
+    width: 100%; /* Đảm bảo tên admin chiếm hết chiều rộng thanh menu */
+}
+
+/* Các nút trong menu */
+.header .flex .navbar a {
+    display: block;
+    width: 100%; /* Đảm bảo các nút phủ hết chiều rộng thanh menu */
+    text-align: center; /* Căn giữa chữ trong các nút */
+    font-size: 1.6rem;
+    color: var(--white);
+    font-weight: 600;
+    padding: 1.5rem; /* Tăng padding cho các nút */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    border-bottom: var(--border); /* Viền dưới mỗi mục */
 }
 
 .header .flex .navbar a:hover {
-   color: var(--main-color);
-   transform: scale(1.5); /* Zoom nhẹ */
-   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    background-color: var(--main-color); /* Đậm hơn khi hover */
+    color: var(--white); /* Đảm bảo chữ vẫn sáng khi hover */
 }
 
-
-
-.header .flex .icons > *{
-   font-size: 2.5rem;
-   cursor: pointer;
-   color:var(--light-color);
-   margin-left: 1.7rem;
+/* Các nút dưới chữ admin (Update Profile, Login, Register, Logout) */
+.header .flex .profile-actions {
+    display: none; /* Ẩn các nút mặc định */
+    position: absolute;
+    top: 100%; /* Đặt các nút dưới tên admin */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    text-align: center;
+    background-color: var(--white);
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+    z-index: 100; /* Đảm bảo các nút hiển thị khi hover vào */
+    padding: 1rem 0;
 }
 
-.header .flex .icons > *:hover{
-   color:var(--main-color);
+/* Các nút update profile, login, register, logout */
+.header .flex .profile-actions a {
+   display: block;
+   width: 100%; /* Đảm bảo các nút phủ hết chiều rộng thanh menu */
+   text-align: center; /* Căn giữa chữ trong các nút */
+   font-size: 1.6rem;
+   color: var(--white);
+   font-weight: 600;
+   padding: 1.5rem; /* Tăng padding cho các nút */
+   transition: background-color 0.3s ease, color 0.3s ease;
+   border: none;
+   border-bottom: var(--border); /* Viền dưới mỗi mục */
 }
 
-.header .flex .profile{
-   position: absolute;
-   top:125%; right:2rem;
-   background-color: var(--white);
-   box-shadow: var(--box-shadow);
-   border:var(--border);
-   border-radius: .5rem;
-   padding:2rem;
-   padding-top: 1rem;
-   width: 30rem;
-   display: none;
-   animation: fadeIn .2s linear;
+/* Các nút login và register sẽ có màu nền sáng hơn */
+.header .flex .profile-actions .login-register {
+    background-color: #85C1AE; /* Màu xanh sáng cho nút Login và Register */
 }
 
-@keyframes fadeIn {
-   0%{
-      transform: translateY(1rem);
-   }
+/* Khi hover vào các nút login, register, logout */
+.header .flex .profile-actions a:hover {
+   background-color: var(--white); /* Màu nền sáng khi hover */
+   color: var(--black); /* Chữ đổi màu khi hover */
 }
 
-.header .flex .profile p{
-   margin-bottom: 1rem;
-   font-size: 2rem;
-   text-align: center;
-   color:var(--black);
+/* Loại bỏ thanh trượt ngang */
+body, html {
+   overflow-x: hidden; /* Đảm bảo không có thanh cuộn ngang */
 }
 
-.header .flex .profile.active{
-   display: inline-block;
+/* Chỉnh sửa phần tử overflow trong thanh menu */
+.header {
+   overflow-y: auto;
+   scrollbar-width: thin;
+   scrollbar-color: var(--main-color) var(--light-bg);
 }
 
-#menu-btn{
-   display: none;
+.header .flex .profile-actions .login-register:hover {
+    background-color: #A3D9CA; /* Màu sáng hơn khi hover */
 }
 
-.dashboard .box-container{
+.header .flex .profile-actions .logout {
+    background-color: var(--red); /* Màu đỏ cho nút Logout */
+}
+
+.header .flex .profile-actions a:hover {
+    background-color: var(--white); /* Khi hover vào các nút, màu nền sẽ chuyển sang trắng */
+    color: var(--black);
+}
+
+/* Thanh cuộn dọc bên phải thanh menu */
+.header {
+    overflow-y: auto; /* Thêm thanh cuộn dọc khi cần thiết */
+    scrollbar-width: thin;
+    scrollbar-color: var(--main-color) var(--light-bg); /* Màu của thanh cuộn */
+}
+
+/* Hiệu ứng hover cho các mục trong menu */
+.header .flex .navbar a:hover {
+    color: var(--black);
+    background-color: var(--white);
+    border-radius: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .header {
+        width: 0;
+        overflow: hidden;
+    }
+
+    body {
+        margin-left: 0;
+    }
+
+    .header .flex .navbar {
+        display: none; /* Ẩn navbar khi thanh menu thu lại */
+    }
+
+    #menu-btn {
+        display: block;
+    }
+}
+
+/* Cập nhật phần container cho dashboard */
+.dashboard {
+   margin-left: 30px; /* Đảm bảo có khoảng cách cho sidebar */
+   padding: 3rem; /* Tăng padding cho không gian */
+}
+
+/* Bố cục cho các ô trong dashboard */
+.dashboard .box-container {
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(27rem, 1fr));
-   gap:1.5rem;
-   align-items: flex-start;
+   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Tăng kích thước các ô */
+   gap: 2rem; /* Tăng khoảng cách giữa các ô */
+   align-items: center;
+   justify-items: center;
 }
 
-.dashboard .box-container .box{
+.dashboard .heading {
+   text-align: left;
+   margin-left: 0px;
+}
+/* Các ô trong dashboard */
+.dashboard .box-container .box {
    text-align: center;
-   background-color: var(--white);
-   border:var(--border);
+   background-color: var(--main-color); /* Màu nền xanh dương */
+   border-radius: 0.5rem;
    box-shadow: var(--box-shadow);
-   border-radius: .5rem;
-   text-align: center;
-   padding:1.5rem;
+   padding: 3rem; /* Tăng padding để làm ô lớn hơn */
+   color: var(--white); /* Chữ trắng */
+   transition: transform 0.3s ease;
+   width: 100%; /* Đảm bảo ô chiếm toàn bộ chiều rộng */
 }
 
-.dashboard .box-container .box h3{
-   font-size: 2.7rem;
-   color:var(--black);
+/* Hiệu ứng hover khi di chuột vào ô */
+.dashboard .box-container .box:hover {
+   transform: translateY(-5px); /* Tạo hiệu ứng nổi lên khi hover */
 }
 
-.dashboard .box-container .box h3 span{
-   font-size: 2rem;
+/* Tiêu đề của mỗi ô (Total Completes, Total Orders) */
+.dashboard .box-container .box h3 {
+   font-size: 3rem; /* Tăng kích thước font chữ */
+   font-weight: 600;
 }
 
-.dashboard .box-container .box p{
-   padding:1.5rem;
-   border-radius: .5rem;
-   background-color: var(--light-bg);
-   border-radius: .5rem;
+/* Các phần mô tả bên dưới tiêu đề */
+.dashboard .box-container .box p {
+   font-size: 2rem; /* Tăng kích thước chữ */
+   color: var(--white);
+   margin: 1.5rem 0; /* Tăng khoảng cách giữa các phần tử */
+}
+
+/* Nút View trong mỗi ô */
+.dashboard .box-container .box .btn {
+   padding: 1.5rem 3rem; /* Tăng kích thước nút */
+   background-color: var(--white);
+   color: var(--main-color);
    font-size: 1.8rem;
-   border:var(--border);
-   margin:1rem 0;
-   color:var(--light-color);
+   font-weight: 600;
+   border-radius: .5rem;
+   text-transform: capitalize;
+   margin-top: 1.5rem; /* Tăng khoảng cách giữa nút và nội dung trên */
+   transition: background-color 0.3s ease;
 }
 
-.add-products form{
+/* Hiệu ứng hover cho nút View */
+.dashboard .box-container .box .btn:hover {
+   background-color:#34495e;
+   color: var(--white);
+}
+
+.search-add-products .heading {
+   text-align: left;
+   margin-left: 0;
+}
+
+
+/* Add Product Form Popup */
+.popup {
+   display: none; /* Hidden by default */
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   justify-content: center;
+   align-items: center;
+   font-size: medium;
+}
+
+.popup-form {
+   background-color: var(--white);
+   padding: 2rem;
+   border-radius: 1rem;
+   width: 400px;
+   box-shadow: var(--box-shadow);
+   text-align: center;
+}
+
+.popup-form input,
+.popup-form select {
+   width: 100%;
+   padding: 10px;
+   margin: 5 5px;
+   border: 1px solid #d1d1d1; /* Light gray border for table cells */
+}
+
+.popup-form .btn,
+.popup-form .btn-close {
+   width: 100%;
+   padding: 1rem;
+   background-color: var(--main-color);
+   color: var(--white);
+   font-size: 1.6rem;
+   margin-top: 1rem;
+   border: none;
+   cursor: pointer;
+}
+
+.popup-form .btn-close {
+   background-color: #e74c3c;
+}
+
+.popup-form .btn-close:hover {
+   background-color: #c0392b;
+}
+
+.popup-form .btn:hover {
+   background-color: #34495e;
+}
+
+/* Search Bar */
+.search-bar {
+   text-align: center;
+   margin-bottom: 2rem;
+}
+
+.search-bar input {
+   width: 50%;
+   padding: 1rem;
+   font-size: 1.6rem;
+   border-radius: 0.5rem;
+   border: var(--border);
+}
+
+/* Table for displaying products */
+.products-table table {
+   width: 100%;
+   border-collapse: collapse;
+}
+/* Style the product images in the table */
+.products-table table th, 
+.products-table table td {
+   padding: 1rem;
+   text-align: center;
+   border: 1px solid var(--border);
+   border: 1px solid #d1d1d1; /* Light gray border for table cells */
+}
+
+.products-table table th {
+   background-color: var(--main-color);
+   color: var(--white);
+}
+
+.products-table table td {
+   font-size: 1.6rem;
+}
+
+.products-table .product-image {
+   width: 50px; /* Adjust image size */
+   height: 50px;
+   object-fit: cover; /* Make sure the image is cropped nicely */
+   border-radius: 0.5rem; /* Rounded corners for the image */
+   border: 1px solid var(--border); /* Border around the image */
+}
+
+.products-table .delete-btn,
+.products-table .option-btn {
+   padding: 0.6rem 1.2rem;
+   background-color: var(--main-color);
+   color: var(--white);
+   text-decoration: none;
+   border-radius: 0.5rem;
+   font-size: 1.4rem;
+   margin: 0.3rem;
+}
+
+.products-table .delete-btn:hover,
+.products-table .option-btn:hover {
+   background-color: #34495e;
+}
+/* Search and Add Product Section */
+.search-add-products {
+   display: flex;
+   flex-direction: column; /* Arrange items vertically */
+   gap: 1rem; /* Space between elements */
+   width: 100%; /* Ensure container takes full width */
+   margin-bottom: 2rem;
+}
+
+/* Heading */
+h1.heading {
+   margin-bottom: 1rem; /* Space between title and elements below */
+}
+
+/* Search Bar */
+.search-bar {
+   width: 100%; /* Make search bar take full width */
+   margin-bottom: 1rem; /* Space below search bar */
+}
+
+.search-bar input {
+   width: 100%; /* Search bar takes full width */
+   padding: 1rem;
+   font-size: 1.6rem;
+   border-radius: 0.5rem;
+   border: var(--border);
+}
+
+/* Add Product Button */
+#openAddProductForm {
+   padding: 0.8rem 1.6rem; /* Size of Add Product button */
+   background-color: var(--main-color);
+   color: var(--white);
+   font-size: 1.4rem;
+   border: none;
+   cursor: pointer;
+   border-radius: 1.5rem;
+   margin-bottom: 1rem; /* Space below Add Product button */
+   width: fit-content; /* Make button width fit its content */
+}
+
+/* Sort Button Container */
+.sort-dropdown {
+   position: relative;
+   display: inline-block;
+   width: fit-content; /* Make dropdown container fit its content */
+}
+
+/* Sort Button */
+#openSortMenu {
+   padding: 1rem 2rem; /* Size of Sort button */
+   background-color: #bdc3c7;
+   color: var(--white);
+   font-size: 1.4rem;
+   border: none;
+   cursor: pointer;
+   border-radius: 1.5rem;
+   width: fit-content; /* Make button width fit its content */
+}
+
+#openSortMenu:hover {
+   background-color: #95a5a6;
+}
+
+/* Sort Dropdown Content */
+.dropdown-content {
+   display: none;
+   position: absolute;
+   background-color: #fff;
+   min-width: 160px;
+   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+   z-index: 1;
+   border-radius: 8px;
+   padding: 0.5rem 0;
+   margin-top: 0.5rem; /* Space between button and dropdown */
+}
+
+/* Show dropdown content when hovering over sort-dropdown */
+.sort-dropdown:hover .dropdown-content {
+   display: block;
+}
+
+.dropdown-content a {
+   padding: 12px 16px;
+   text-decoration: none;
+   display: block;
+   color: black;
+   font-size: 1.4rem;
+}
+
+.dropdown-content a:hover {
+   background-color: #f1f1f1;
+}
+
+
+/* .add-products form{
    margin:0 auto;
    max-width: 50rem;
    background-color: var(--white);
    border-radius: .5rem;
    box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:2rem;
+   border: var(--border);
+   padding: 2rem;
    text-align: center;
 }
 
 .add-products form h3{
    margin-bottom: 1rem;
    font-size: 2.5rem;
-   color:var(--black);
+   color: var(--black);
    text-transform: capitalize;
 }
 
 .add-products form .box{
    background-color: var(--light-bg);
-   border:var(--border);
+   border: var(--border);
    width: 100%;
-   padding:1.4rem;
+   padding: 1.4rem;
    font-size: 1.8rem;
-   color:var(--black);
+   color: var(--black);
    border-radius: .5rem;
    margin: 1rem 0;
 }
@@ -348,7 +707,7 @@ section{
 .show-products .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 33rem);
-   gap:1.5rem;
+   gap: 1.5rem;
    justify-content: center;
    align-items: flex-start;
 }
@@ -357,8 +716,8 @@ section{
    background-color: var(--white);
    border-radius: .5rem;
    box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:1.5rem;
+   border: var(--border);
+   padding: 1.5rem;
 }
 
 .show-products .box-container .box img{
@@ -370,40 +729,40 @@ section{
 
 .show-products .box-container .box .name{
    font-size: 2rem;
-   color:var(--black);
-   padding:1rem 0;
+   color: var(--black);
+   padding: 1rem 0;
 }
 
 .show-products .box-container .box .flex{
    display: flex;
    align-items: center;
-   gap:1rem;
+   gap: 1rem;
    justify-content: space-between;
 }
 
 .show-products .box-container .box .flex .category{
    font-size: 1.8rem;
-   color:var(--main-color);
+   color: var(--main-color);
 }
 
 .show-products .box-container .box .flex .price{
    font-size: 2rem;
-   color:var(--black);
-   margin:.5rem 0;
+   color: var(--black);
+   margin: .5rem 0;
 }
 
 .show-products .box-container .box .flex .price span{
    font-size: 1.5rem;
-}
+} */
 
 .update-product form{
-   margin:0 auto;
+   margin: 0 auto;
    max-width: 50rem;
    background-color: var(--white);
    border-radius: .5rem;
    box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:2rem;
+   border: var(--border);
+   padding: 2rem;
 }
 
 .update-product form img{
@@ -414,11 +773,11 @@ section{
 
 .update-product form .box{
    background-color: var(--light-bg);
-   border:var(--border);
+   border: var(--border);
    width: 100%;
-   padding:1.4rem;
+   padding: 1.4rem;
    font-size: 1.8rem;
-   color:var(--black);
+   color: var(--black);
    border-radius: .5rem;
    margin: 1rem 0;
 }
@@ -430,80 +789,314 @@ section{
 
 .update-product form span{
    font-size: 1.7rem;
-   color:var(--black);
+   color: var(--black);
 }
-
-.placed-orders .box-container{
-   display: grid;
-   grid-template-columns: repeat(auto-fit, 33rem);
-   gap:1.5rem;
-   justify-content: center;
-   align-items: flex-start;
-}
-
-.placed-orders .box-container .box{
-   background-color: var(--white);
-   border-radius: .5rem;
-   box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:2rem;
-   padding-top: 1rem;
-}
-
-.placed-orders .box-container .box p{
-   padding: .5rem 0;
-   line-height: 1.5;
-   font-size: 1.8rem;
-   color:var(--black);
-}
-
-.placed-orders .box-container .box p span{
-   color:var(--main-color);
-}
-
-.placed-orders .box-container .box .drop-down{
+/* Orders Table Styling */
+.orders-table table {
    width: 100%;
-   margin:1rem 0;
-   background-color: var(--light-bg);
-   padding:1rem 1.4rem;
-   font-size: 2rem;
-   color:var(--black);
-   border:var(--border);
-   border-radius: .5rem;
+   border-collapse: collapse;
+   margin-top: 2rem;
 }
 
-.accounts .box-container{
-   display: grid;
-   grid-template-columns: repeat(auto-fit, 33rem);
-   gap:1.5rem;
-   justify-content: center;
-   align-items: flex-start;
-}
-
-.accounts .box-container .box{
-   background-color: var(--white);
-   border-radius: .5rem;
-   box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:2rem;
-   padding-top: 1rem;
+.orders-table table th,
+.orders-table table td {
+   padding: 1rem;
    text-align: center;
+   border: 1px solid #d1d1d1; /* Light gray border */
+   font-size: 1.6rem;
 }
 
-.accounts .box-container .box p{
-   padding: .5rem 0;
-   font-size: 1.8rem;
-   color:var(--black);
+.orders-table table th {
+   background-color: var(--main-color);
+   color: var(--white);
 }
 
-.accounts .box-container .box p span{
-   color:var(--main-color);
+.orders-table table td {
+   color: var(--black);
 }
+
+.orders-table table td .drop-down {
+   width: 100%;
+   background-color: var(--light-bg);
+   padding: 1rem;
+   font-size: 1.6rem;
+   border-radius: 0.5rem;
+   border: var(--border);
+}
+
+.orders-table table td .btn {
+   background-color: var(--main-color);
+   color: var(--white);
+   padding: 0.6rem 1.2rem;
+   font-size: 1.6rem;
+   border-radius: 0.5rem;
+   cursor: pointer;
+}
+
+.orders-table table td .btn:hover {
+   background-color: #34495e;
+}
+
+.orders-table table td .delete-btn {
+   background-color: #e74c3c;
+   color: var(--white);
+   padding: 0.6rem 1.2rem;
+   font-size: 1.6rem;
+   border-radius: 0.5rem;
+   cursor: pointer;
+   text-decoration: none;
+}
+
+.orders-table table td .delete-btn:hover {
+   background-color: #c0392b;
+}
+
+/* View Detail button styling */
+.orders-table table td .view-detail-btn {
+   background-color: #3498db;
+   color: var(--white);
+   padding: 0.6rem 1.2rem;
+   font-size: 1.6rem;
+   border-radius: 0.5rem;
+   cursor: pointer;
+}
+
+.orders-table table td .view-detail-btn:hover {
+   background-color: #2980b9;
+}
+
+/* Detail Row - Hidden by Default */
+.detail-row {
+   display: none;
+   background-color: #f9f9f9;
+}
+
+.order-details {
+   padding: 1rem;
+}
+
+.order-details p {
+   margin: 0.5rem 0;
+   font-size: 1.6rem;
+}
+
+/* Ensure proper padding for table rows */
+.orders-table table td {
+   line-height: 1.6;
+}
+
+/* Styling for the Register New Admin button */
+.option-btn {
+   display: inline-block;
+   padding: 1rem 2rem;
+   background-color: #3498db;
+   color: white;
+   font-size: 1.4rem;
+   text-decoration: none;
+   border-radius: 10px;
+   border: none;
+   cursor: pointer;
+   transition: background-color 0.3s;
+   margin: 2rem 0;
+   width: 100%; /* Make the button occupy full width */
+}
+
+.option-btn:hover {
+   background-color: #2980b9;
+}
+
+/* Nút Register */
+.register-btn {
+   display: inline-block;
+   padding: 1rem 2rem;
+   background-color: #2980b9; /* Màu xanh đậm */
+   color: var(--white);
+   font-size: 1.4rem;
+   text-transform: capitalize;
+   text-align: center;
+   box-sizing: border-box;
+   background-color: #3498db; /* Màu xanh sáng */
+   border: none;
+   border-radius: 8px;
+   cursor: pointer;
+   transition: background-color 0.3s ease, transform 0.2s ease;
+   margin-bottom: 2rem;
+   width: 50%;
+   text-decoration: none;
+   margin-left: 275px;
+}
+
+.register-btn:hover {
+   background-color: #2980b9; /* Đổi màu khi hover */
+   transform: translateY(-2px);
+}
+
+.register-btn:active {
+   background-color: #1f65b6;
+   transform: translateY(0);
+}
+/* Container for Admins Section */
+.accounts {
+   width: 100%; /* Bảng chiếm toàn bộ chiều rộng */
+   padding: 2rem;
+   box-sizing: border-box;
+}
+
+.heading {
+   text-align: center;
+   font-size: 2.5rem;
+   font-weight: bold;
+   color: #333;
+   margin-bottom: 2rem;
+}
+
+/* Styling for the table displaying accounts */
+.accounts-table {
+   width: 100%; /* Bảng chiếm toàn bộ chiều rộng của màn hình */
+   border-collapse: collapse;
+   margin-top: 2rem;
+   justify-content: left;
+}
+
+.accounts-table th, .accounts-table td {
+   padding: 1.2rem;
+   text-align: center;
+   border: 1px solid #ddd;
+   font-size: 1.4rem;
+   word-wrap: break-word;
+}
+
+.accounts-table th {
+   background-color: #f4f4f4;
+   font-weight: bold;
+   color: #333;
+   justify-content: center;
+}
+
+.accounts-table td {
+   background-color: #fff;
+   justify-content: center;
+}
+
+.accounts-table tr:hover {
+   background-color: #f1f1f1;
+}
+
+/* Actions buttons container */
+.actions-container {
+   display: flex;
+   justify-content: center; /* Align buttons horizontally */
+   gap: 1rem; /* Space between buttons */
+}
+
+/* New styling for the delete button in the actions container */
+.delete-btn-custom {
+   padding: 0.8rem 2rem;
+   font-size: 1.4rem;
+   background-color: #e74c3c;
+   color: #fff;
+   border-radius: 5px;
+   cursor: pointer;
+   border: none;
+   text-transform: capitalize;
+   width: auto;
+   display: inline-block; /* Makes the button inline with space around it */
+   margin: 0 1rem 1rem 0; /* Add margin between buttons */
+}
+
+.delete-btn-custom:hover {
+   background-color: #c0392b;
+   transform: translateY(-2px);
+}
+
+.delete-btn-custom:active {
+   background-color: #b03a2e;
+   transform: translateY(0);
+}
+
+/* New styling for the update button */
+.update-btn-custom {
+   padding: 0.8rem 2rem;
+   font-size: 1.4rem;
+   background-color: #3498db;
+   color: #fff;
+   border-radius: 5px;
+   cursor: pointer;
+   border: none;
+   text-transform: capitalize;
+   width: auto;
+   display: inline-block; /* Makes the button inline with space around it */
+}
+
+.update-btn-custom:hover {
+   background-color: #2980b9;
+   transform: translateY(-2px);
+}
+
+.update-btn-custom:active {
+   background-color: #1f65b6;
+   transform: translateY(0);
+}
+
+/* Modify the actions container to space the buttons better */
+.actions-container {
+   display: flex;
+   justify-content: flex-start; /* Align buttons from the left */
+   gap: 1rem; /* Add space between buttons */
+}
+
+/* Optional: Style for a button container to give extra space */
+.actions-container a {
+   text-decoration: none;
+}
+
+/* Styling for the action buttons */
+.delete-btn, .update-btn {
+   padding: 0.8rem 1.5rem; /* Adjust padding for better button size */
+   border-radius: 5px;
+   font-size: 1.2rem;
+   cursor: pointer;
+   text-decoration: none;
+   width: 100%; /* Ensure the width of the buttons adapts to the content */
+}
+
+.accounts-table .delete-btn .update-btn {
+   width: 50% !important; 
+}
+
+.delete-btn {
+   background-color: #e74c3c;
+   color: #fff;
+   border: none;
+}
+
+.delete-btn:hover {
+   background-color: #c0392b;
+}
+
+.update-btn {
+   background-color: #3498db;
+   color: #fff;
+   border: none;
+}
+
+.update-btn:hover {
+   background-color: #2980b9;
+}
+
+/* Style for the table empty state */
+.empty {
+   font-size: 1.4rem;
+   color: #999;
+   text-align: center;
+   padding: 2rem;
+}
+
 
 .messages .box-container{
    display: grid;
    grid-template-columns: repeat(auto-fit, 33rem);
-   gap:1.5rem;
+   gap: 1.5rem;
    justify-content: center;
    align-items: flex-start;
 }
@@ -512,50 +1105,82 @@ section{
    background-color: var(--white);
    border-radius: .5rem;
    box-shadow: var(--box-shadow);
-   border:var(--border);
-   padding:2rem;
+   border: var(--border);
+   padding: 2rem;
    padding-top: 1rem;
 }
-
-.messages .box-container .box p{
-   padding: .5rem 0;
-   font-size: 1.8rem;
-   color:var(--black);
+/* Styling for the messages section */
+.messages .box-container {
+   width: 100%;
+   padding: 1rem;
+   box-sizing: border-box;
+   overflow-x: auto; /* For horizontal scroll if necessary */
 }
 
-.messages .box-container .box p span{
-   color:var(--main-color);
+/* Styling for the table */
+.messages-table {
+   width: 100%;
+   border-collapse: collapse;
+   margin-top: 2rem;
+   font-size: 1.4rem;
+}
+
+.messages-table th, .messages-table td {
+   padding: 1.2rem;
+   text-align: left; /* Align text to the left for better readability */
+   border: 1px solid #ddd;
+   word-wrap: break-word;
+}
+
+.messages-table th {
+   background-color: #f4f4f4;
+   font-weight: bold;
+   color: #333;
+}
+
+.messages-table td {
+   background-color: #fff;
+}
+
+.messages-table tr:hover {
+   background-color: #f1f1f1;
+}
+
+/* Styling for the action buttons */
+.delete-btn {
+   padding: 0.8rem 1.5rem;
+   border-radius: 5px;
+   font-size: 1.2rem;
+   cursor: pointer;
+   margin-top: 1rem;
+   text-decoration: none;
+   background-color: #e74c3c;
+   color: #fff;
+   border: none;
+   display: inline-block; /* Makes the button inline */
+}
+
+.delete-btn:hover {
+   background-color: #c0392b;
+}
+
+/* Empty state */
+.empty {
+   font-size: 1.4rem;
+   color: #999;
+   text-align: center;
+   padding: 2rem;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* media queries  */
-
+/* media queries */
 @media (max-width:991px){
-
    html{
       font-size: 55%;
    }
-
 }
 
 @media (max-width:768px){
-
    #menu-btn{
       display: inline-block;
    }
@@ -578,11 +1203,9 @@ section{
       display: block;
       margin:2rem;
    }
-
 }
 
 @media (max-width:450px){
-
    html{
       font-size: 50%;
    }
@@ -607,5 +1230,4 @@ section{
    .accounts .box-container{
       grid-template-columns: 1fr;
    }
-
 }

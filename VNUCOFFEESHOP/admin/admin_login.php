@@ -72,15 +72,5 @@ if(isset($message)){
 
 <!-- admin login form section ends -->
 
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>

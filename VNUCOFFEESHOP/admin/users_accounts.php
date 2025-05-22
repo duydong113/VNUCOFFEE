@@ -43,34 +43,44 @@ if(isset($_GET['delete'])){
 <?php include '../components/admin_header.php' ?>
 
 <!-- user accounts section starts  -->
-
+ 
 <section class="accounts">
 
-   <h1 class="heading">users account</h1>
+   <h1 class="heading">Users Accounts</h1>
 
-   <div class="box-container">
-
-   <?php
-      $select_account = $conn->prepare("SELECT * FROM `users`");
-      $select_account->execute();
-      if($select_account->rowCount() > 0){
-         while($fetch_accounts = $select_account->fetch(PDO::FETCH_ASSOC)){  
-   ?>
-   <div class="box">
-      <p> user id : <span><?= $fetch_accounts['id']; ?></span> </p>
-      <p> username : <span><?= $fetch_accounts['name']; ?></span> </p>
-      <a href="users_accounts.php?delete=<?= $fetch_accounts['id']; ?>" class="delete-btn" onclick="return confirm('delete this account?');">delete</a>
-   </div>
-   <?php
-      }
-   }else{
-      echo '<p class="empty">no accounts available</p>';
-   }
-   ?>
-
-   </div>
+   <table class="accounts-table">
+      <thead>
+         <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Actions</th>
+         </tr>
+      </thead>
+      <tbody>
+         <?php
+            $select_account = $conn->prepare("SELECT * FROM `users`");
+            $select_account->execute();
+            if($select_account->rowCount() > 0){
+               while($fetch_accounts = $select_account->fetch(PDO::FETCH_ASSOC)){  
+         ?>
+         <tr>
+            <td><?= $fetch_accounts['id']; ?></td>
+            <td><?= $fetch_accounts['name']; ?></td>
+            <td>
+               <a href="users_accounts.php?delete=<?= $fetch_accounts['id']; ?>" class="delete-btn" onclick="return confirm('Delete this account?');">Delete</a>
+            </td>
+         </tr>
+         <?php
+            }
+         } else {
+            echo '<tr><td colspan="3" class="empty">No accounts available</td></tr>';
+         }
+         ?>
+      </tbody>
+   </table>
 
 </section>
+
 
 <!-- user accounts section ends -->
 

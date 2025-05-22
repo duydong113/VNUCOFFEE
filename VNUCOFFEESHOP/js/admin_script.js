@@ -25,4 +25,21 @@ subImages.forEach(images =>{
       let src = images.getAttribute('src');
       mainImage.src = src;
    }
+
+
+   function toggleDetail(orderId) {
+   const detailRow = document.getElementById('detail-row-' + orderId);
+   // Toggle the visibility of the detail row
+   if (detailRow.style.display === "table-row") {
+      detailRow.style.display = "none";
+   } else {
+      detailRow.style.display = "table-row";
+   }
+}
+
+
+   function closePopup() {
+      document.getElementById('orderDetailPopup').style.display = 'none';
+   }
+
 });

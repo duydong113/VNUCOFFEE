@@ -40,23 +40,9 @@ if(!isset($admin_id)){
    <div class="box-container">
 
    <div class="box">
-      <h3>welcome!</h3>
+      <h3>Welcome back!</h3>
       <p><?= $fetch_profile['name']; ?></p>
-      <a href="update_profile.php" class="btn">update profile</a>
-   </div>
-
-   <div class="box">
-      <?php
-         $total_pendings = 0;
-         $select_pendings = $conn->prepare("SELECT * FROM `orders` WHERE payment_status = ?");
-         $select_pendings->execute(['pending']);
-         while($fetch_pendings = $select_pendings->fetch(PDO::FETCH_ASSOC)){
-            $total_pendings += $fetch_pendings['total_price'];
-         }
-      ?>
-      <h3><span>VND</span><?= $total_pendings; ?><span>/-</span></h3>
-      <p>total pendings</p>
-      <a href="placed_orders.php" class="btn">see orders</a>
+      <a href="update_profile.php" class="btn">Update profile</a>
    </div>
 
    <div class="box">
@@ -68,8 +54,8 @@ if(!isset($admin_id)){
             $total_completes += $fetch_completes['total_price'];
          }
       ?>
-      <h3><span>VND</span><?= $total_completes; ?><span>/-</span></h3>
-      <p>total completes</p>
+      <h3><?= $total_completes; ?><span> VNĐ</span><span></span></h3>
+      <p>Total completes</p>
       <a href="placed_orders.php" class="btn">see orders</a>
    </div>
 
@@ -80,7 +66,7 @@ if(!isset($admin_id)){
          $numbers_of_orders = $select_orders->rowCount();
       ?>
       <h3><?= $numbers_of_orders; ?></h3>
-      <p>total orders</p>
+      <p>Total orders</p>
       <a href="placed_orders.php" class="btn">see orders</a>
    </div>
 
@@ -91,7 +77,7 @@ if(!isset($admin_id)){
          $numbers_of_products = $select_products->rowCount();
       ?>
       <h3><?= $numbers_of_products; ?></h3>
-      <p>products added</p>
+      <p>Products added</p>
       <a href="products.php" class="btn">see products</a>
    </div>
 
@@ -102,19 +88,8 @@ if(!isset($admin_id)){
          $numbers_of_users = $select_users->rowCount();
       ?>
       <h3><?= $numbers_of_users; ?></h3>
-      <p>users accounts</p>
+      <p>Users accounts</p>
       <a href="users_accounts.php" class="btn">see users</a>
-   </div>
-
-   <div class="box">
-      <?php
-         $select_admins = $conn->prepare("SELECT * FROM `admin`");
-         $select_admins->execute();
-         $numbers_of_admins = $select_admins->rowCount();
-      ?>
-      <h3><?= $numbers_of_admins; ?></h3>
-      <p>admins</p>
-      <a href="admin_accounts.php" class="btn">see admins</a>
    </div>
 
    <div class="box">
@@ -124,7 +99,7 @@ if(!isset($admin_id)){
          $numbers_of_messages = $select_messages->rowCount();
       ?>
       <h3><?= $numbers_of_messages; ?></h3>
-      <p>new messages</p>
+      <p>Feedback</p>
       <a href="messages.php" class="btn">see messages</a>
    </div>
 
