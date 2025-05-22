@@ -48,12 +48,12 @@ html{
 
 body{
    background-color: var(--light-bg);
-   margin-left: 500px; /* Điều chỉnh lại thanh menu */
+   margin-left: 300px; /* Điều chỉnh lại thanh menu */
    transition: margin-left 0.3s ease-in-out;
 }
 
 section{
-   max-width: 1200px;
+   max-width: 1600px;
    margin:0 auto;
    padding:2rem;
 }

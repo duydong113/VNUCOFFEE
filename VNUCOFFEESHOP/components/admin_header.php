@@ -30,9 +30,9 @@ if(isset($message)){
          <a href="dashboard.php">Home</a>
          <a href="products.php">Products</a>
          <a href="placed_orders.php">Orders</a>
-         <a href="admin_accounts.php">Admins</a>
+         <!-- <a href="admin_accounts.php">Admins</a> -->
          <a href="users_accounts.php">Users</a>
-         <a href="messages.php">Messages</a>
+         <a href="messages.php">Feedbacks</a>
       </nav>
 
       <div class="profile">
