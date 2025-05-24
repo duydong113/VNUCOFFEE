@@ -34,6 +34,6 @@
 
 </footer>
 
-<div class="loader">
+<!-- <div class="loader">
    <img src="images/loadernew.gif" alt="">
-</div>
+</div> -->
