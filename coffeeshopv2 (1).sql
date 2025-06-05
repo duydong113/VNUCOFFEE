@@ -209,6 +209,15 @@ INSERT INTO `orderdetail` (`OrderDetailID`, `OrderID`, `ProductID`, `Quantity`, 
 -- --------------------------------------------------------
 
 --
+CREATE TABLE admin (
+    AdminID INT AUTO_INCREMENT PRIMARY KEY, -- Mã ID tự động tăng
+    Username VARCHAR(100) NOT NULL UNIQUE, -- Tên người dùng (username)
+    Password VARCHAR(255) NOT NULL, -- Mật khẩu người dùng
+    CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    Phone VARCHAR(20) NOT NULL
+);
+
 -- Table structure for table `product`
 --
 
