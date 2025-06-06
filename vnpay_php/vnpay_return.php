@@ -57,7 +57,7 @@
         if ($secureHash == $vnp_SecureHash) {
             if ($vnp_ResponseCode == '00' && $vnp_TransactionStatus == '00') {
                 // Payment successful
-                $update_stmt = $conn->prepare("UPDATE `ORDER` SET Status = 'Paid' WHERE OrderID = ?");
+                $update_stmt = $conn->prepare("UPDATE `ORDER` SET Status = 'Confirmed' WHERE OrderID = ?");
                 $update_stmt->bind_param("i", $order_id);
                 $update_stmt->execute();
                 $update_stmt->close();

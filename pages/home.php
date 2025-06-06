@@ -61,7 +61,7 @@ $slider_result = $conn->query($slider_query);
           <img src="<?php echo htmlspecialchars($product['ImageURL']); ?>"
             alt="<?php echo htmlspecialchars($product['Name']); ?>">
           <h3><?php echo htmlspecialchars($product['Name']); ?></h3>
-          <p class="price"><?php echo number_format($product['Price'], 0, ',', '.'); ?>đ</p>
+          <p class="price">$<?php echo number_format($product['Price'], 2); ?></p>
           <a href="index.php?page=product_detail&id=<?php echo $product['ProductID']; ?>"
             class="btn btn-secondary">More details</a>
         </div>

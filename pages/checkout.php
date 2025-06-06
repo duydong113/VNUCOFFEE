@@ -110,7 +110,11 @@ $cust_stmt->close();
   </div>
 
   <h3>Order Summary</h3>
-  <p><strong>Total Amount: $<?php echo number_format($total_price, 2); ?></strong></p>
+  <?php
+  require_once 'includes/currency_utils.php';
+  $vnd_amount = usd_to_vnd($total_price);
+  ?>
+  <p><strong>Total Amount: <?php echo format_usd($total_price); ?> (<?php echo format_vnd($vnd_amount); ?>)</strong></p>
   <input type="hidden" name="total_price" value="<?php echo $total_price; ?>">
 
   <!-- Payment section -->

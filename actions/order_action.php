@@ -163,11 +163,15 @@ if (isset($_POST['place_order'])) {
     if ($payment_method === 'vnpay') {
       // Redirect to VNPay payment
       require_once '../vnpay_php/config.php';
+      require_once '../includes/currency_utils.php';
+
+      // Convert USD to VND for VNPay
+      $vnd_amount = usd_to_vnd($total_price);
 
       // Create form data for VNPay
       $formData = array(
         'order_id' => $order_id,
-        'amount' => $total_price,
+        'amount' => $vnd_amount,
         'bankCode' => '' // Let user choose bank on VNPay page
       );
 
